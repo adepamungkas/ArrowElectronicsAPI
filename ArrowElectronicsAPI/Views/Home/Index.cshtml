@@ -1,0 +1,118 @@
+﻿
+@model ArrowElectronicsAPI.Models.ArrowElectronics
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Call API from Arrow Electronics</h2>
+
+@foreach (var item in Model.Itemserviceresult.ServiceMetaData)
+{
+    <p>
+        serviceMetaData <br />
+        version :  @item.Version
+    </p>
+    <hr />
+}
+
+@foreach (var item in Model.Itemserviceresult.TransactionArea)
+{
+
+    <p>
+        <b>response</b><br />
+        ReturnCode  :  @item.Response.ReturnCode <br />
+        ReturnMsg  :  @item.Response.ReturnMsg <br />
+        Success  :  @item.Response.Success <br />
+    </p>
+
+    <p>
+        <b>responseSequence</b><br />
+        TransactionTime  :  @item.ResponseSequence.TransactionTime <br />
+        QueryTime  :  @item.ResponseSequence.QueryTime<br />
+        DbTime  :  @item.ResponseSequence.DbTime <br />
+        TotalItems  :  @item.ResponseSequence.TotalItems <br />
+        QQ  :  @item.ResponseSequence.Qq <br />
+    </p>
+
+    <p>
+        <hr />
+        <b>resources</b><br />
+        @foreach (var itemResource in @item.ResponseSequence.Resources)
+        {
+            <b>Resource</b> @itemResource;
+        }
+        <br />
+
+    </p>
+
+
+}
+
+
+@foreach (var item in Model.Itemserviceresult.Data)
+{
+    <p>
+        <b>Data </b><br />
+        PartsRequested :  @item.PartsRequested <br />
+        partsFound :  @item.PartsFound <br />
+        PartsNotFound :  @item.PartsNotFound <br />
+        PartsError :  @item.PartsError <br />
+        <hr />
+        @foreach (var resultList in item.ResultList)
+        {
+        <p>
+            <b>ResultList</b>  <br />
+            PartsRequested :  @resultList.NumberFound <br />
+            requestedPartNum :  @resultList.RequestedPartNum <br />
+            @foreach (var resource in resultList.Resources)
+            {
+
+            }
+            <b>Part List</b><br />
+            @foreach (var partList in resultList.PartList)
+            {
+            <p>
+             
+                itemId : @partList.ItemId
+                PartNum : @partList.PartNum
+                Desc : @partList.Desc
+                PackageType : @partList.PackageType:
+
+                @foreach (var resources in partList.Resources)
+                {
+                <p>
+                    Type: @resources.Type <br />
+                    Uri: @resources.Uri <br />
+                </p>
+                }
+<b>Envdata</b><br />
+                @foreach (var envData in partList.EnvData.Compliance)
+                {
+                    <p>
+                       
+                        DisplayLabel: @envData.DisplayLabel <br />
+                        DisplayValue: @envData.DisplayValue <br />
+                    </p>
+                }
+<hr />
+                <b>invOrg</b><br/>
+                @foreach (var invOrg in partList.InvOrg.Sources)
+                {
+                    <p>
+                       
+                        Currency: @invOrg.Currency <br />
+                        DisplayName: @invOrg.DisplayName <br />
+                        Currency: @invOrg.SourceCd <br />
+                        DisplayName: @invOrg.SourceParts <br />
+                    </p>
+                }
+
+
+                </p >
+            }
+            </p>
+        }
+        </p>
+
+}
+
